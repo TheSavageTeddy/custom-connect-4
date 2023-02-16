@@ -91,18 +91,18 @@ class connectFour:
         return [[arr[i][e] for i in range(len(arr))] for e in range(len(arr[0]))]
 
 
-    def check_win(self, board, player) -> bool:
+    def check_win(self, player) -> bool:
         '''
         Check if a player has won, given the board and the player number
         '''
-        if any([player * 4 in "".join(map(str, row)) for row in board]):
+        if any([str(player) * 4 in "".join(map(str, row)) for row in self.board]):
             return True
-        if any([player * 4 in "".join(map(str, col)) for col in self.flip_dimension(board)]):
+        if any([str(player) * 4 in "".join(map(str, col)) for col in self.flip_dimension(self.board)]):
             return True
         return False
 
     def valid_move(self, column):
-        return 0 in self.board[column]
+        return 0 in self.board[column-1]
 
     def make_move(self, column, player):
         self.board[column - 1]["".join(map(str, self.board[column - 1])).rindex("0")] = player

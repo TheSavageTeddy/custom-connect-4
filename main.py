@@ -3,15 +3,18 @@ import shutil
 
 terminalWidth, terminalHeight = shutil.get_terminal_size()
 
-def getNumber(prompt, minimum=0):
+def getNumber(prompt, minimum=0, maximum=None):
     a = input(prompt)
     while True:
         if a.isdecimal():
             if int(a) >= minimum:
-                break
+                if maximum != None:
+                    if int(a) <= maximum:
+                        return int(a)
+                else:
+                    return int(a)
         print(Colors.RED + "Invalid number!" + Colors.END)
         a = input(prompt)
-    return int(a)
 
 
 
@@ -19,8 +22,20 @@ if __name__ == "__main__":
     
     boardLength = getNumber("Enter board length (min 4): ", minimum=4)
     boardWidth = getNumber("Enter board width (min 4): ", minimum=4)
-    boardWidth = getNumber("Enter amount of players (min 2): ", minimum=2)
+    players = getNumber("Enter amount of players (min 2): ", minimum=2)
     
-    game = connectFour(boardLength, boardWidth, 2, terminalWidth, terminalHeight)
-    game.display_board()
+    game = connectFour(boardLength, boardWidth, players, terminalWidth, terminalHeight)
+    while True:
+        for player in range(1, players+1):
+            game.display_board()
+            while True:
+                column = getNumber(f"Player {player}'s move: ", minimum=1, maximum=boardWidth)
+                if game.valid_move(column):
+                    game.make_move(column, player)
+                    break
+                else:
+                    print(Colors.RED + "Invalid column!" + Colors.END)
+            if game.check_win(player):
+                print(Colors.YELLOW + f"Player {player} wins!")
+                exit()
 
