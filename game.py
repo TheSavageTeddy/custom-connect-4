@@ -1,8 +1,18 @@
+def getNumber(prompt, minimum=0):
+    a = input(prompt)
+    while True:
+        if a.isdecimal():
+            if int(a) >= minimum:
+                break
+        print(Colors.RED + "Invalid number!" + Colors.END)
+        a = input(prompt)
+    return int(a)
+
 class Colors:
     """
-	ANSI color codes
-	Source: https://gist.github.com/rene-d/9e584a7dd2935d0f461904b9f2950007
-	"""
+    ANSI color codes
+    Source: https://gist.github.com/rene-d/9e584a7dd2935d0f461904b9f2950007
+    """
     BLACK = "\033[0;30m"
     RED = "\033[0;31m"
     GREEN = "\033[0;32m"
@@ -42,55 +52,61 @@ class Colors:
 
 
 class connectFour:
-	def __init__(self, length: int, width: int, players: int) -> None:
-		self.length = length
-		self.width = width
-		self.board = [[0 for _ in range(self.width)] for _ in range(self.length)]
+    def __init__(self, boardLength: int, boardWidth: int, players: int, terminalWidth: int, terminalHeight:int) -> None:
+        self.length = boardLength
+        self.width = boardWidth
+        self.board = [[0 for _ in range(self.width)] for _ in range(self.length)]
 
-		self.colour = Colors()
-		self.colourList = [Colors.RED, Colors.BLUE, Colors.GREEN, Colors.YELLOW, Colors.CYAN, Colors.PURPLE, Colors.LIGHT_RED, Colors.LIGHT_BLUE, Colors.LIGHT_GREEN, Colors.LIGHT_PURPLE]
-		self.players = {i:self.colourList[i-1] for i in range(1, players + 1)}
-		
+        self.colour = Colors()
+        self.colourList = [Colors.RED, Colors.BLUE, Colors.GREEN, Colors.YELLOW, Colors.CYAN, Colors.PURPLE, Colors.LIGHT_RED, Colors.LIGHT_BLUE, Colors.LIGHT_GREEN]
+        self.players = {i:{'colour': self.colourList[i-1], 'icon': None} for i in range(1, players + 1)}
 
-	
-	def colour_markers(self, string: str):
-		colouredString = ""
-		for char in string:
-			match char:
-				case "0":
-					colouredString += "."
-				case _:
-					if char in list(map(str, self.players.keys())):
-						colouredString += self.players[int(char)] + char + self.colour.END
-					else:
-						colouredString += char
-		return colouredString
-			
-	
-	def display_board(self):
-		[print(self.colour_markers(" ".join(map(str, row)))) in row for row in self.flip_dimension(self.board)]
+        self.terminalWidth, self.terminalHeight = terminalWidth, terminalHeight
 
-	def flip_dimension(self, arr: list) -> list:
-		'''
-		Flips a 2 dimensional array
-		'''
-		return [[arr[i][e] for i in range(len(arr))] for e in range(len(arr[0]))]
+        
+
+    
+    def colour_markers(self, string: str):
+        colouredString = ""
+        for char in string:
+            match char:
+                case "0":
+                    colouredString += self.colour.LIGHT_PURPLE + "." + self.colour.END
+                case _:
+                    if char in list(map(str, self.players.keys())):
+                        colouredString += self.players[int(char)]['colour'] + char + self.colour.END
+                    else:
+                        colouredString += char
+        return colouredString
 
 
-	def check_win(self, board, player) -> bool:
-		'''
-		Check if a player has won, given the board and the player number
-		'''
-		if any([player * 4 in "".join(map(str, row)) for row in board]):
-			return True
-		if any([player * 4 in "".join(map(str, col)) for col in self.flip_dimension(board)]):
-			return True
-		return False
+    def display_board(self):
+        [print(f'{self.colour_markers(" ".join(map(str, row))): ^{self.terminalWidth}}') in row for row in self.flip_dimension(self.board)]
+        print(f'{" ".join(map(str, range(1, self.width+1))): ^{self.terminalWidth}}')
 
-	def valid_move(self, column):
-		return 0 in self.board[column]
-
-	def make_move(self, column, player):
-		self.board[column - 1]["".join(map(str, self.board[column - 1])).rindex("0")] = player
+    def flip_dimension(self, arr: list) -> list:
+        '''
+        Flips a 2 dimensional array
+        '''
+        return [[arr[i][e] for i in range(len(arr))] for e in range(len(arr[0]))]
 
 
+    def check_win(self, board, player) -> bool:
+        '''
+        Check if a player has won, given the board and the player number
+        '''
+        if any([player * 4 in "".join(map(str, row)) for row in board]):
+            return True
+        if any([player * 4 in "".join(map(str, col)) for col in self.flip_dimension(board)]):
+            return True
+        return False
+
+    def valid_move(self, column):
+        return 0 in self.board[column]
+
+    def make_move(self, column, player):
+        self.board[column - 1]["".join(map(str, self.board[column - 1])).rindex("0")] = player
+
+    def play_round(self):
+        for playerNum in self.players:
+            column = getNumber(f"Player {playerNum}: ", minimum=1)
