@@ -68,7 +68,7 @@ class connectFour:
     
     def colour_markers(self, string: str):
         colouredString = ""
-        for char in string:
+        for i, char in enumerate(string):
             match char:
                 case "0":
                     colouredString += self.colour.LIGHT_PURPLE + "." + self.colour.END
@@ -81,8 +81,9 @@ class connectFour:
 
 
     def display_board(self):
-        [print(f'{self.colour_markers(" ".join(map(str, row))): ^{self.terminalWidth}}') in row for row in self.flip_dimension(self.board)]
-        print(f'{" ".join(map(str, range(1, self.width+1))): ^{self.terminalWidth}}')
+
+        [print(f'{self.colour_markers(" ".join(map(str, row))): ^{self.terminalWidth}}') in row for row in self.board + [list(map(str, range(1, self.width+1)))]]
+        #print(f'{" ".join(map(str, range(1, self.width+1))): ^{self.terminalWidth}}')
 
     def flip_dimension(self, arr: list) -> list:
         '''
@@ -99,13 +100,17 @@ class connectFour:
             return True
         if any([str(player) * 4 in "".join(map(str, col)) for col in self.flip_dimension(self.board)]):
             return True
+        
+        # left up to right down diagonal
+        #for row in range(0, self.width)
+        
         return False
 
     def valid_move(self, column):
         return 0 in self.board[column-1]
 
     def make_move(self, column, player):
-        self.board[column - 1]["".join(map(str, self.board[column - 1])).rindex("0")] = player
+        self.board["".join(map(str, self.flip_dimension(self.board)[column-1])).rindex("0")][column-1] = player
 
     def play_round(self):
         for playerNum in self.players:

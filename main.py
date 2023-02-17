@@ -36,6 +36,7 @@ if __name__ == "__main__":
                 else:
                     print(Colors.RED + "Invalid column!" + Colors.END)
             if game.check_win(player):
+                game.display_board()
                 print(Colors.YELLOW + f"Player {player} wins!")
                 exit()
 
