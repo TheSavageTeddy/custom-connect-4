@@ -52,10 +52,10 @@ class Colors:
 
 
 class connectFour:
-    def __init__(self, boardLength: int, boardWidth: int, players: int, terminalWidth: int, terminalHeight:int) -> None:
-        self.length = boardLength
+    def __init__(self, boardHeight: int, boardWidth: int, players: int, terminalWidth: int, terminalHeight:int) -> None:
+        self.height = boardHeight
         self.width = boardWidth
-        self.board = [[0 for _ in range(self.width)] for _ in range(self.length)]
+        self.board = [[0 for _ in range(self.width)] for _ in range(self.height)]
 
         self.colour = Colors()
         self.colourList = [Colors.RED, Colors.BLUE, Colors.GREEN, Colors.YELLOW, Colors.CYAN, Colors.PURPLE, Colors.LIGHT_RED, Colors.LIGHT_BLUE, Colors.LIGHT_GREEN]
@@ -102,7 +102,7 @@ class connectFour:
             return True
         
         # left up to right down diagonal
-        #for row in range(0, self.width)
+        #for row in range(0, self.length)
         
         return False
 

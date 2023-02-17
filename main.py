@@ -20,11 +20,11 @@ def getNumber(prompt, minimum=0, maximum=None):
 
 if __name__ == "__main__":
     
-    boardLength = getNumber("Enter board length (min 4): ", minimum=4)
+    boardHeight = getNumber("Enter board height (min 4): ", minimum=4)
     boardWidth = getNumber("Enter board width (min 4): ", minimum=4)
     players = getNumber("Enter amount of players (min 2): ", minimum=2)
     
-    game = connectFour(boardLength, boardWidth, players, terminalWidth, terminalHeight)
+    game = connectFour(boardHeight, boardWidth, players, terminalWidth, terminalHeight)
     while True:
         for player in range(1, players+1):
             game.display_board()
