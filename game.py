@@ -95,7 +95,7 @@ class connectFour:
         columnLabels = []
         for columnNum in range(1, self.width + 1):
             columnLabels.append(str(columnNum) + " " * (2 - len(str(columnNum))))
-        print(self.center_ansi_text("".join(columnLabels), self.terminalWidth))
+        print(f'{Colors.BOLD}{self.center_ansi_text("".join(columnLabels), self.terminalWidth)}{Colors.END}')
 
     def flip_dimension(self, arr: list) -> list:
         '''
@@ -118,8 +118,8 @@ class connectFour:
         
         return False
 
-    def valid_move(self, column):
-        return 0 in self.board["".join(map(str, self.flip_dimension(self.board)[column-1])).rindex("0")]
+    def valid_move(self, column) -> bool:
+        return 0 in self.flip_dimension(self.board)[column - 1]
 
     def make_move(self, column, player):
         self.board["".join(map(str, self.flip_dimension(self.board)[column-1])).rindex("0")][column-1] = player
