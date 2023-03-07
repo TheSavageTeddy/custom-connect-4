@@ -1,3 +1,5 @@
+import re
+
 def getNumber(prompt, minimum=0):
     a = input(prompt)
     while True:
@@ -63,10 +65,16 @@ class connectFour:
 
         self.terminalWidth, self.terminalHeight = terminalWidth, terminalHeight
 
-        
+    
+    def center_ansi_text(self, string: str, width: int, char: str = " ") -> str:
+        ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])') # https://stackoverflow.com/questions/14693701/how-can-i-remove-the-ansi-escape-sequences-from-a-string-in-python
+        true_string_length = len(ansi_escape.sub('', string)) # actual visual length of string - disregards ansi colouring codes
+        right = (width - true_string_length) // 2
+        left = width - right - true_string_length
+        return f'''{right * char}{string}{left * char}'''
 
     
-    def colour_markers(self, string: str):
+    def colour_markers(self, string: str) -> str:
         colouredString = ""
         for i, char in enumerate(string):
             match char:
@@ -80,10 +88,14 @@ class connectFour:
         return colouredString
 
 
-    def display_board(self):
-
-        [print(f'{self.colour_markers(" ".join(map(str, row))): ^{self.terminalWidth}}') in row for row in self.board + [list(map(str, range(1, self.width+1)))]]
-        #print(f'{" ".join(map(str, range(1, self.width+1))): ^{self.terminalWidth}}')
+    def display_board(self) -> None:
+        for row in self.board:
+            print(f'{self.center_ansi_text(self.colour_markers(" ".join(map(str, row))), self.terminalWidth)}')
+        
+        columnLabels = []
+        for columnNum in range(1, self.width + 1):
+            columnLabels.append(str(columnNum) + " " * (2 - len(str(columnNum))))
+        print(self.center_ansi_text("".join(columnLabels), self.terminalWidth))
 
     def flip_dimension(self, arr: list) -> list:
         '''
@@ -107,7 +119,7 @@ class connectFour:
         return False
 
     def valid_move(self, column):
-        return 0 in self.board[column-1]
+        return 0 in self.board["".join(map(str, self.flip_dimension(self.board)[column-1])).rindex("0")]
 
     def make_move(self, column, player):
         self.board["".join(map(str, self.flip_dimension(self.board)[column-1])).rindex("0")][column-1] = player
