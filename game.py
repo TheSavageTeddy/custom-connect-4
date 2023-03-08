@@ -108,13 +108,24 @@ class connectFour:
         '''
         Check if a player has won, given the board and the player number
         '''
+
+        # rows and columns
         if any([str(player) * 4 in "".join(map(str, row)) for row in self.board]):
             return True
         if any([str(player) * 4 in "".join(map(str, col)) for col in self.flip_dimension(self.board)]):
             return True
         
-        # left up to right down diagonal
-        #for row in range(0, self.length)
+        # left down to right up diagonal
+        for row in range(0, self.width):
+            for col in range(0, self.height - 3):
+                if str(player) * 4 == "".join(map(str, [self.board[row][col], self.board[row-1][col+1], self.board[row-2][col+2], self.board[row-3][col+3]])):
+                    return True
+        
+        for row in range(3, self.width):
+            for col in range(3, self.height):
+                if str(player) * 4 == "".join(map(str, [self.board[row][col], self.board[row-1][col-1], self.board[row-2][col-2], self.board[row-3][col-3]])):
+                    return True
+        
         
         return False
 

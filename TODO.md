@@ -1,4 +1,3 @@
 
 
-# check diagonals in win
-# fix colour centering
+# additional cosmetic stuff like colour
