@@ -17,7 +17,7 @@ def getNumber(prompt, minimum = 0, maximum = None, blankAllowed = False) -> int:
                         return int(a)
                 else:
                     return int(a)
-        elif a == "":
+        elif a == "" and blankAllowed:
             return ""
         print(Colors.RED + "Invalid number!" + Colors.END)
         a = input(prompt)
