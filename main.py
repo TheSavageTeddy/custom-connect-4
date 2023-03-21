@@ -34,10 +34,7 @@ def getYesNo(prompt) -> bool:
                 print(Colors.RED + "Invalid input! Please enter 'yes' or 'no'" + Colors.END)
         a = input(prompt)
 
-
-
-if __name__ == "__main__":
-
+def main():
     gameFinished = False
     scoreboard = []
     
@@ -87,6 +84,5 @@ if __name__ == "__main__":
         boardWidth = boardWidth if newBoardWidth == "" else newBoardWidth
         players = players if newPlayers == "" else newPlayers
 
-        
-                    
-
+if __name__ == "__main__":
+    main()
