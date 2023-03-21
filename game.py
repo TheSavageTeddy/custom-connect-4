@@ -95,7 +95,7 @@ class connectFour:
         columnLabels = []
         for columnNum in range(1, self.width + 1):
             columnLabels.append(str(columnNum) + " " * (2 - len(str(columnNum))))
-        print(f'{Colors.BOLD}{self.center_ansi_text("  " + "".join(columnLabels), self.terminalWidth)}{Colors.END}')
+        print(f'{Colors.BOLD}{self.center_ansi_text(" "*(len(columnLabels) % 2) + "".join(columnLabels), self.terminalWidth)}{Colors.END}')
 
     def flip_dimension(self, arr: list) -> list:
         '''
