@@ -1,15 +1,5 @@
 import re
 
-def getNumber(prompt, minimum=0):
-    a = input(prompt)
-    while True:
-        if a.isdecimal():
-            if int(a) >= minimum:
-                break
-        print(Colors.RED + "Invalid number!" + Colors.END)
-        a = input(prompt)
-    return int(a)
-
 class Colors:
     """
     ANSI color codes
@@ -170,7 +160,3 @@ class connectFour:
 
     def make_move(self, column, player):
         self.board["".join(map(str, self.flip_dimension(self.board)[column-1])).rindex("0")][column-1] = player
-
-    def play_round(self):
-        for playerNum in self.players:
-            column = getNumber(f"Player {playerNum}: ", minimum=1)
