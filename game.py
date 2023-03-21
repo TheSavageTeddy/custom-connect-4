@@ -54,7 +54,7 @@ class Colors:
 
 
 class connectFour:
-    def __init__(self, boardHeight: int, boardWidth: int, players: int, terminalWidth: int, terminalHeight:int) -> None:
+    def __init__(self, boardHeight: int, boardWidth: int, players: int, terminalWidth: int, terminalHeight:int, scores: dict) -> None:
         self.height = boardHeight
         self.width = boardWidth
         self.board = [[0 for _ in range(self.width)] for _ in range(self.height)]
@@ -62,6 +62,16 @@ class connectFour:
         self.colour = Colors()
         self.colourList = [Colors.RED, Colors.BLUE, Colors.GREEN, Colors.YELLOW, Colors.CYAN, Colors.PURPLE, Colors.LIGHT_RED, Colors.LIGHT_BLUE, Colors.LIGHT_GREEN]
         self.players = {i:{'colour': self.colourList[i-1], 'icon': None} for i in range(1, players + 1)}
+        
+        if scores == []:
+            self.scoreboard = {i:0 for i in range(1, players + 1)}
+        else:
+            self.scoreboard = {}
+            for player in range(1, players + 1):
+                if player in scores.keys():
+                    self.scoreboard[player] = scores[player]
+                else:
+                    self.scoreboard[player] = 0
 
         self.terminalWidth, self.terminalHeight = terminalWidth, terminalHeight
 
@@ -73,6 +83,33 @@ class connectFour:
         left = width - right - true_string_length
         return f'''{right * char}{string}{left * char}'''
 
+    def print_scoreboard(self):
+        sorted_scoreboard = [[player, score] for player, score in self.scoreboard.items()]
+        sorted_scoreboard = sorted(sorted_scoreboard, key=lambda x: x[1], reverse=True)
+        for scorecard in sorted_scoreboard:
+            player, score = scorecard
+            print(f"Player {player}: {score}")
+
+    def update_scoreboard(self, winning_player):
+        if winning_player == None: # TODO: Test this
+            for player in self.scoreboard:
+                print(f"Player {self.scoreboard[player]} recieves 1.5 points ({self.scoreboard[player]} -> {self.scoreboard[player]+1.5})")
+                self.scoreboard[player] += 1.5
+            return self.scoreboard
+
+        winner = winning_player
+        losers = []
+        for player in self.players:
+            if player != winner:
+                losers.append(player)
+
+        print(f"Player {player} recieves 2 points ({self.scoreboard[winner]} -> {self.scoreboard[winner]+2})")
+        self.scoreboard[winner] += 2
+        for loser in losers:
+            print(f"Player {player} recieves 1 point ({self.scoreboard[loser]} -> {self.scoreboard[loser]+1})")
+            self.scoreboard[loser] += 1
+          
+        return self.scoreboard
     
     def colour_markers(self, string: str) -> str:
         colouredString = ""
@@ -103,6 +140,9 @@ class connectFour:
         '''
         return [[arr[i][e] for i in range(len(arr))] for e in range(len(arr[0]))]
 
+    def check_draw(self) -> bool:
+        return not any([item == 0 for row in self.board for item in row])
+
 
     def check_win(self, player) -> bool:
         '''
@@ -116,7 +156,7 @@ class connectFour:
             return True
         
         # left down to right up diagonal
-        for row in range(0, self.width):
+        for row in range(3, self.width):
             for col in range(0, self.height - 3):
                 if str(player) * 4 == "".join(map(str, [self.board[row][col], self.board[row-1][col+1], self.board[row-2][col+2], self.board[row-3][col+3]])):
                     return True

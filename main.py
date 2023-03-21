@@ -39,13 +39,14 @@ def getYesNo(prompt) -> bool:
 if __name__ == "__main__":
 
     gameFinished = False
+    scoreboard = []
     
     boardHeight = getNumber("Enter board height (min 4): ", minimum=4)
     boardWidth = getNumber("Enter board width (min 4): ", minimum=4)
     players = getNumber("Enter amount of players (min 2): ", minimum=2)
     
     while True:
-        game = connectFour(boardHeight, boardWidth, players, terminalWidth, terminalHeight)
+        game = connectFour(boardHeight, boardWidth, players, terminalWidth, terminalHeight, scoreboard)
         while True:
             for player in range(1, players+1):
                 game.display_board()
@@ -56,9 +57,18 @@ if __name__ == "__main__":
                         break
                     else:
                         print(Colors.RED + "Invalid column!" + Colors.END)
+                if game.check_draw():
+                    game.display_board()
+                    print(f"It's a Draw!")
+                    scoreboard = game.update_scoreboard(None)
+                    game.print_scoreboard()
+                    gameFinished = True
+                    break
                 if game.check_win(player):
                     game.display_board()
                     print(Colors.YELLOW + f"Player {player} wins!")
+                    scoreboard = game.update_scoreboard(player)
+                    game.print_scoreboard()
                     gameFinished = True
                     break
             if gameFinished:
