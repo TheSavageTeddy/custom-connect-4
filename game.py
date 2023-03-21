@@ -91,7 +91,7 @@ class connectFour:
             print(f"Player {player}: {score}")
 
     def update_scoreboard(self, winning_player):
-        if winning_player == None: # TODO: Test this
+        if winning_player == None:
             for player in self.scoreboard:
                 print(f"Player {self.scoreboard[player]} recieves 1.5 points ({self.scoreboard[player]} -> {self.scoreboard[player]+1.5})")
                 self.scoreboard[player] += 1.5
@@ -129,10 +129,7 @@ class connectFour:
         for row in self.board:
             print(f'{self.center_ansi_text(self.colour_markers(" ".join(map(str, row))), self.terminalWidth)}')
         
-        columnLabels = []
-        for columnNum in range(1, self.width + 1):
-            columnLabels.append(str(columnNum) + " " * (2 - len(str(columnNum))))
-        print(f'{Colors.BOLD}{self.center_ansi_text(" "*(len(columnLabels) % 2) + "".join(columnLabels), self.terminalWidth)}{Colors.END}')
+        print(f'{self.center_ansi_text(Colors.BOLD + " ".join(map(str, range(1, self.width + 1))) + Colors.END, self.terminalWidth)}')
 
     def flip_dimension(self, arr: list) -> list:
         '''
@@ -165,7 +162,6 @@ class connectFour:
             for col in range(3, self.height):
                 if str(player) * 4 == "".join(map(str, [self.board[row][col], self.board[row-1][col-1], self.board[row-2][col-2], self.board[row-3][col-3]])):
                     return True
-        
         
         return False
 
