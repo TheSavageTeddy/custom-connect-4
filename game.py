@@ -147,16 +147,19 @@ class connectFour:
         if any([winning_string in "".join(map(str, col)) for col in self.flip_dimension(self.board)]):
             return True
         
-        # check left up to right down diagonal
+        # check left down to right up diagonal
         for row in range(3, self.height):
-            for col in range(3, self.width - 3):
-                print(f'''{row = }\n{col = }\n{"".join(map(str, [self.board[row][col], self.board[row-1][col+1], self.board[row-2][col+2], self.board[row-3][col+3]]))}\n''')
+            for col in range(0, self.width - 3):
+                #print(f'''{row = }\n{col = }\n''')
                 if winning_string == "".join(map(str, [self.board[row][col], self.board[row-1][col+1], self.board[row-2][col+2], self.board[row-3][col+3]])):
                     return True
         
-        # check left down to right up diagonal
+        # check left up to right down diagonal
         for row in range(3, self.height):
             for col in range(3, self.width):
+                print(f'''{row = }\n{col = }''')
+                print("".join(map(str, [self.board[row][col], self.board[row-1][col-1], self.board[row-2][col-2], self.board[row-3][col-3]])))
+                print()
                 if winning_string == "".join(map(str, [self.board[row][col], self.board[row-1][col-1], self.board[row-2][col-2], self.board[row-3][col-3]])):
                     return True
         
