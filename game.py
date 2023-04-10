@@ -86,7 +86,7 @@ class connectFour:
     def update_scoreboard(self, winning_player):
         if winning_player == None:
             for player in self.scoreboard:
-                print(f"Player {self.scoreboard[player]} recieves 1.5 points ({self.scoreboard[player]} -> {self.scoreboard[player]+1.5})")
+                print(Colors.BOLD + Colors.CYAN + f"For DRAW: Player {self.scoreboard[player]} recieves 1.5 points ({self.scoreboard[player]} -> {self.scoreboard[player]+1.5})" + Colors.END)
                 self.scoreboard[player] += 1.5
             return self.scoreboard
 
@@ -96,10 +96,10 @@ class connectFour:
             if player != winner:
                 losers.append(player)
 
-        print(f"Player {player} recieves 2 points ({self.scoreboard[winner]} -> {self.scoreboard[winner]+2})")
+        print(Colors.BOLD + Colors.GREEN + f"For WIN: Player {winner} recieves 2 points ({self.scoreboard[winner]} -> {self.scoreboard[winner]+2})" + Colors.END)
         self.scoreboard[winner] += 2
         for loser in losers:
-            print(f"Player {player} recieves 1 point ({self.scoreboard[loser]} -> {self.scoreboard[loser]+1})")
+            print(Colors.BOLD + Colors.LIGHT_CYAN + f"For LOSS: Player {loser} recieves 1 point for ({self.scoreboard[loser]} -> {self.scoreboard[loser]+1})" + Colors.END)
             self.scoreboard[loser] += 1
           
         return self.scoreboard
@@ -147,14 +147,14 @@ class connectFour:
         if any([winning_string in "".join(map(str, col)) for col in self.flip_dimension(self.board)]):
             return True
         
-        # check left down to right up diagonal
+        # check left up to right down diagonal
         for row in range(3, self.height):
             for col in range(3, self.width - 3):
                 print(f'''{row = }\n{col = }\n{"".join(map(str, [self.board[row][col], self.board[row-1][col+1], self.board[row-2][col+2], self.board[row-3][col+3]]))}\n''')
                 if winning_string == "".join(map(str, [self.board[row][col], self.board[row-1][col+1], self.board[row-2][col+2], self.board[row-3][col+3]])):
                     return True
         
-        # check right down to left up diagonal
+        # check left down to right up diagonal
         for row in range(3, self.height):
             for col in range(3, self.width):
                 if winning_string == "".join(map(str, [self.board[row][col], self.board[row-1][col-1], self.board[row-2][col-2], self.board[row-3][col-3]])):
