@@ -99,6 +99,7 @@ class connectFour:
             print(placement_colour + f"#{placement:<3} Player {player}: {score}" + Colors.END)
             prev_score = score
             prev_placement = placement
+        print() # seperate scoreboard from next print
 
     def update_scoreboard(self, winning_player):
         if winning_player == None:
