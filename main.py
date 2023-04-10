@@ -56,7 +56,7 @@ def main():
                         print(Colors.RED + "Invalid column!" + Colors.END)
                 if game.check_draw():
                     game.display_board()
-                    print(f"It's a Draw!")
+                    print(Colors.YELLOW + f"It's a Draw!")
                     scoreboard = game.update_scoreboard(None)
                     game.print_scoreboard()
                     gameFinished = True

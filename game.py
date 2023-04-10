@@ -5,6 +5,9 @@ class Colors:
     ANSI color codes
     Source: https://gist.github.com/rene-d/9e584a7dd2935d0f461904b9f2950007
     """
+    '''
+    THESE ARE ALL CONSTANT VARIABLES, THEY DO NOT CHANGE, ONLY ACCESSED
+    '''
     BLACK = "\033[0;30m"
     RED = "\033[0;31m"
     GREEN = "\033[0;32m"
@@ -136,21 +139,25 @@ class connectFour:
         Check if a player has won, given the board and the player number
         '''
 
-        # rows and columns
-        if any([str(player) * 4 in "".join(map(str, row)) for row in self.board]):
+        winning_string = str(player) * 4
+
+        # check rows and columns
+        if any([winning_string in "".join(map(str, row)) for row in self.board]):
             return True
-        if any([str(player) * 4 in "".join(map(str, col)) for col in self.flip_dimension(self.board)]):
+        if any([winning_string in "".join(map(str, col)) for col in self.flip_dimension(self.board)]):
             return True
         
-        # left down to right up diagonal
-        for row in range(3, self.width):
-            for col in range(0, self.height - 3):
-                if str(player) * 4 == "".join(map(str, [self.board[row][col], self.board[row-1][col+1], self.board[row-2][col+2], self.board[row-3][col+3]])):
+        # check left down to right up diagonal
+        for row in range(3, self.height):
+            for col in range(3, self.width - 3):
+                print(f'''{row = }\n{col = }\n{"".join(map(str, [self.board[row][col], self.board[row-1][col+1], self.board[row-2][col+2], self.board[row-3][col+3]]))}\n''')
+                if winning_string == "".join(map(str, [self.board[row][col], self.board[row-1][col+1], self.board[row-2][col+2], self.board[row-3][col+3]])):
                     return True
         
-        for row in range(3, self.width):
-            for col in range(3, self.height):
-                if str(player) * 4 == "".join(map(str, [self.board[row][col], self.board[row-1][col-1], self.board[row-2][col-2], self.board[row-3][col-3]])):
+        # check right down to left up diagonal
+        for row in range(3, self.height):
+            for col in range(3, self.width):
+                if winning_string == "".join(map(str, [self.board[row][col], self.board[row-1][col-1], self.board[row-2][col-2], self.board[row-3][col-3]])):
                     return True
         
         return False
