@@ -58,6 +58,7 @@ def main():
                     game.display_board()
                     print(Colors.LIGHT_GRAY + f"It's a Draw!")
                     scoreboard = game.update_scoreboard(None)
+                    input(Colors.ITALIC + "Press enter to continue to scoreboard..." + Colors.END)
                     game.print_scoreboard()
                     gameFinished = True
                     break
@@ -65,6 +66,7 @@ def main():
                     game.display_board()
                     print(Colors.YELLOW + f"Player {player} wins!")
                     scoreboard = game.update_scoreboard(player)
+                    input(Colors.ITALIC + "Press enter to continue to scoreboard..." + Colors.END)
                     game.print_scoreboard()
                     gameFinished = True
                     break

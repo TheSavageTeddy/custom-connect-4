@@ -68,7 +68,6 @@ class connectFour:
 
         self.terminalWidth, self.terminalHeight = terminalWidth, terminalHeight
 
-    
     def center_ansi_text(self, string: str, width: int, char: str = " ") -> str:
         ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])') # https://stackoverflow.com/questions/14693701/how-can-i-remove-the-ansi-escape-sequences-from-a-string-in-python
         true_string_length = len(ansi_escape.sub('', string)) # actual visual length of string - disregards ansi colouring codes
@@ -79,14 +78,32 @@ class connectFour:
     def print_scoreboard(self):
         sorted_scoreboard = [[player, score] for player, score in self.scoreboard.items()]
         sorted_scoreboard = sorted(sorted_scoreboard, key=lambda x: x[1], reverse=True)
-        for scorecard in sorted_scoreboard:
+        print()
+        print(Colors.UNDERLINE + Colors.BOLD + f"    SCOREBOARD    " + Colors.END)
+        print()
+        prev_score = -1 # set to something the score can't be (gets ignored first loop)
+        prev_placement = -1 # set to something the placement can't be (gets ignored first loop)
+        for i, scorecard in enumerate(sorted_scoreboard):
             player, score = scorecard
-            print(f"Player {player}: {score}")
+            placement_colour = Colors.END + Colors.DARK_GRAY
+            placement = i + 1
+            if prev_score == score:
+                placement = prev_placement
+            match placement: 
+                case 1: # gold/yellow
+                    placement_colour = Colors.YELLOW + Colors.BOLD
+                case 2: # silver
+                    placement_colour = Colors.LIGHT_WHITE + Colors.BOLD
+                case 3: # bronze/red
+                    placement_colour = Colors.LIGHT_RED + Colors.BOLD
+            print(placement_colour + f"#{placement:<3} Player {player}: {score}" + Colors.END)
+            prev_score = score
+            prev_placement = placement
 
     def update_scoreboard(self, winning_player):
         if winning_player == None:
             for player in self.scoreboard:
-                print(Colors.BOLD + Colors.CYAN + f"For DRAW: Player {self.scoreboard[player]} recieves 1.5 points ({self.scoreboard[player]} -> {self.scoreboard[player]+1.5})" + Colors.END)
+                print(Colors.CYAN + Colors.BOLD + f"For DRAW: Player {self.scoreboard[player]} recieves 1.5 points ({self.scoreboard[player]} -> {self.scoreboard[player]+1.5})" + Colors.END)
                 self.scoreboard[player] += 1.5
             return self.scoreboard
 
@@ -96,10 +113,10 @@ class connectFour:
             if player != winner:
                 losers.append(player)
 
-        print(Colors.BOLD + Colors.GREEN + f"For WIN: Player {winner} recieves 2 points ({self.scoreboard[winner]} -> {self.scoreboard[winner]+2})" + Colors.END)
+        print(Colors.GREEN + Colors.BOLD + f"For WIN: Player {winner} recieves 2 points ({self.scoreboard[winner]} -> {self.scoreboard[winner]+2})" + Colors.END)
         self.scoreboard[winner] += 2
         for loser in losers:
-            print(Colors.BOLD + Colors.LIGHT_CYAN + f"For LOSS: Player {loser} recieves 1 point for ({self.scoreboard[loser]} -> {self.scoreboard[loser]+1})" + Colors.END)
+            print(Colors.LIGHT_CYAN + Colors.BOLD + f"For LOSS: Player {loser} recieves 1 point for ({self.scoreboard[loser]} -> {self.scoreboard[loser]+1})" + Colors.END)
             self.scoreboard[loser] += 1
           
         return self.scoreboard
@@ -117,7 +134,6 @@ class connectFour:
                         colouredString += char
         return colouredString
 
-
     def display_board(self) -> None:
         for row in self.board:
             print(f'{self.center_ansi_text(self.colour_markers(" ".join(map(str, row))), self.terminalWidth)}')
@@ -132,7 +148,6 @@ class connectFour:
 
     def check_draw(self) -> bool:
         return not any([item == 0 for row in self.board for item in row])
-
 
     def check_win(self, player) -> bool:
         '''
