@@ -144,7 +144,7 @@ class connectFour: # Module for the connect 4 logic and helper functions and com
             match char:
                 case "0":
                     colouredString += self.colour.LIGHT_PURPLE + "." + self.colour.END
-                case _:
+                case _: # _ represents any other case
                     if char in list(map(str, self.players.keys())):
                         colouredString += self.players[int(char)]['colour'] + char + self.colour.END
                     else:
