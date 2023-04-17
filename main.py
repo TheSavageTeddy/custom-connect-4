@@ -47,7 +47,7 @@ def main():
     # Prompt user for the customizable game settings
     boardHeight = getNumber("Enter board height (min 4): ", minimum=4)
     boardWidth = getNumber("Enter board width (min 4): ", minimum=4)
-    players = getNumber("Enter amount of players (min 2, max 8): ", minimum=2)
+    players = getNumber("Enter amount of players (min 2, max 8): ", minimum=2, maximum=8)
     
     while True:
         # Initialize the game
