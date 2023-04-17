@@ -90,7 +90,7 @@ def main():
         print("Please re-enter game settings, leave blank to use previous settings.")
         newBoardHeight = getNumber("Enter board height (min 4): ", minimum=4, blankAllowed=True)
         newBoardWidth = getNumber("Enter board width (min 4): ", minimum=4, blankAllowed=True)
-        newPlayers = getNumber("Enter amount of players (min 2): ", minimum=2, blankAllowed=True)
+        newPlayers = getNumber("Enter amount of players (min 2): ", minimum=2, maximum=8, blankAllowed=True)
         boardHeight = boardHeight if newBoardHeight == "" else newBoardHeight
         boardWidth = boardWidth if newBoardWidth == "" else newBoardWidth
         players = players if newPlayers == "" else newPlayers
