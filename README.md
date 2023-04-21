@@ -45,7 +45,7 @@ Player 1's move:
 
 Also, note that the board will be centered depending on your terminal width.
 
-A player's marker will fall to the most bottom row it can be on. If the column is full, a player cannot place a marker there. After a player enters their move, the updated board will be presented and the netx player will be prompted for their move.
+A player's marker will fall to the most bottom row it can be on. If the column is full, a player cannot place a marker there. After a player enters their move, the updated board will be presented and the next player will be prompted for their move.
 
 ```
                           . . . . . . .                           
