@@ -30,12 +30,12 @@ def getNumber(prompt, minimum = 0, maximum = None, blankAllowed = False) -> int:
 def getYesNo(prompt) -> bool:
     a = input(prompt)
     while True:
-        match a.lower():
+        match a.lower(): # Case statement used to match the input response
             case 'y' | 'yes':
                 return True
             case 'n' | 'no':
                 return False
-            case _:
+            case _: # _ represents all other inputs that weren't matched
                 print(Colors.RED + "Invalid input! Please enter 'yes' or 'no'" + Colors.END)
         a = input(prompt)
 

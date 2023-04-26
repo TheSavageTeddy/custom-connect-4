@@ -54,17 +54,17 @@ class connectFour: # Module for the connect 4 logic and helper functions and com
     def __init__(self, boardHeight: int, boardWidth: int, players: int, terminalWidth: int, terminalHeight:int, scores: dict) -> None:
         self.height = boardHeight
         self.width = boardWidth
-        self.board = [[0 for _ in range(self.width)] for _ in range(self.height)]
+        self.board = [[0 for _ in range(self.width)] for _ in range(self.height)] # Initialize the board
 
-        self.colour = Colors()
-        self.colourList = [Colors.RED, Colors.BLUE, Colors.GREEN, Colors.YELLOW, Colors.CYAN, Colors.PURPLE, Colors.LIGHT_RED, Colors.LIGHT_BLUE, Colors.LIGHT_GREEN]
-        self.players = {i:{'colour': self.colourList[i-1], 'icon': None} for i in range(1, players + 1)}
+        self.colour = Colors() # ANSI colours for coloured text in terminal
+        self.colourList = [Colors.RED, Colors.BLUE, Colors.GREEN, Colors.YELLOW, Colors.CYAN, Colors.PURPLE, Colors.LIGHT_RED, Colors.LIGHT_BLUE, Colors.LIGHT_GREEN] # A list that stores colours for player markers
+        self.players = {i:{'colour': self.colourList[i-1], 'icon': None} for i in range(1, players + 1)} # Assign each player their marker colour
         
         if scores == []:
-            self.scoreboard = {i:0 for i in range(1, players + 1)}
+            self.scoreboard = {i:0 for i in range(1, players + 1)} # Initialize scoreboard
         else:
             self.scoreboard = {}
-            for player in range(1, players + 1):
+            for player in range(1, players + 1): # Reassign each player their point based on the provided previous scoreboard
                 if player in scores.keys():
                     self.scoreboard[player] = scores[player]
                 else:
